@@ -6,3 +6,10 @@ __pycache__/
 *.log
 .DS_Store
 Thumbs.db
+node_modules/
+.next/
+dashboard/node_modules/
+dashboard/.next/
+dashboard/.vercel/
+slide_icons/
+pyramids/
