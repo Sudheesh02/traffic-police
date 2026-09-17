@@ -1,0 +1,27 @@
+# Banned AI Buzzwords and Clichés
+# Replace these with plain, direct, human words:
+
+delve -> explore, look into, dig into
+testament -> proof, evidence
+tapestry -> mix, system, setup
+seamlessly -> directly, smoothly, automatically
+empowers -> lets, enables, gives
+revolutionize -> change, improve, speed up
+pivotal -> key, vital, essential
+multifaceted -> complex, multi-step
+synergy / synergistic -> combined, working together
+unprecedented -> new, record
+leverage / leveraging -> using, applying
+paramount -> critical, essential
+meticulous -> careful, exact
+cornerstone -> base, core foundation
+foster -> encourage, build, grow
+holistic -> complete, end-to-end
+cutting-edge -> modern, latest, new
+game-changer -> major improvement
+
+# Punctuation Rules:
+# - No em-dashes (—)
+# - No en-dashes with spaces ( – )
+# - No triple-nested dashed bullets
+# - Use short, complete sentences or bold title anchors instead.

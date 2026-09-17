@@ -1,0 +1,10 @@
+{
+  "junction_id": "RPR_GE_ROAD_04",
+  "timestamp": "2026-09-17T01:44:25Z",
+  "override_source": "EDGE_AI_CCTV_CAM01",
+  "vehicle_detected": "AMBULANCE",
+  "license_plate": "CG04MB1234",
+  "confidence": 0.95,
+  "lane_cleared": "NORTH_BOUND",
+  "preemption_duration_sec": 22
+}

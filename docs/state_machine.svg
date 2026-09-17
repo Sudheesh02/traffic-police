@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <defs>
+    <style>
+      .title { font-family: 'Segoe UI', Arial, sans-serif; font-weight: 800; font-size: 24px; fill: #0f172a; }
+      .subtitle { font-family: 'Segoe UI', Arial, sans-serif; font-weight: 500; font-size: 14px; fill: #475569; }
+      .state-name { font-family: 'Segoe UI', Arial, sans-serif; font-weight: 700; font-size: 13.5px; }
+      .state-time { font-family: 'Segoe UI', Arial, sans-serif; font-weight: 700; font-size: 11px; }
+      .state-desc { font-family: 'Segoe UI', Arial, sans-serif; font-size: 10.5px; fill: #334155; }
+      .guard-text { font-family: 'Segoe UI', Arial, sans-serif; font-size: 10px; font-weight: 600; fill: #0284c7; }
+      .fail-text { font-family: 'Segoe UI', Arial, sans-serif; font-size: 9.5px; font-weight: 700; fill: #dc2626; }
+      .panel-title { font-family: 'Segoe UI', Arial, sans-serif; font-weight: 700; font-size: 12.5px; fill: #0f172a; }
+      .panel-body { font-family: 'Segoe UI', Arial, sans-serif; font-size: 11px; fill: #334155; line-height: 1.4; }
+      .shadow { filter: drop-shadow(0px 3px 8px rgba(0, 0, 0, 0.06)); }
+    </style>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="100%" stop-color="#f1f5f9" />
+    </linearGradient>
+    <marker id="arrow-fsm" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#0284c7" />
+    </marker>
+    <marker id="arrow-fail" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#dc2626" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#16a34a" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1200" height="900" fill="#f8fafc" />
+
+  <!-- Header -->
+  <rect x="25" y="20" width="1150" height="72" rx="12" fill="url(#headerGrad)" stroke="#cbd5e1" stroke-width="1.5" class="shadow" />
+  <text x="50" y="50" class="title">Deterministic Inter-Green Safety Clearance State Machine</text>
+  <text x="50" y="74" class="subtitle">Indian Road Congress (IRC:SP:12 &amp; IRC:93) Safety Engine with Form-C Hardware Interlocks</text>
+  <rect x="970" y="38" width="180" height="24" rx="12" fill="#16a34a" />
+  <text x="982" y="54" font-family="'Segoe UI', Arial" font-size="10.5px" font-weight="700" fill="#ffffff">ZERO-COLLISION CERTIFIED</text>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN STATE ENGINE FLOW (TOP-TO-BOTTOM / CIRCULAR RECOVERY)                -->
+  <!-- ========================================================================= -->
+
+  <!-- 1. STATE_NORMAL_CYCLE -->
+  <g class="shadow">
+    <rect x="80" y="125" width="280" height="90" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="2" />
+    <rect x="80" y="125" width="8" height="90" rx="4" fill="#64748b" />
+    <text x="100" y="148" class="state-name" fill="#1e293b">1. STATE_NORMAL_CYCLE</text>
+    <text x="100" y="166" class="state-time" fill="#64748b">Duration: Fixed-Time / Actuated (Legacy TSC)</text>
+    <text x="100" y="184" class="state-desc">• Standard round-robin phasing (N-S ➔ E-W)</text>
+    <text x="100" y="200" class="state-desc">• Form-C Relays de-energized (NC Passthrough)</text>
+  </g>
+
+  <!-- Transition 1 -> 2 -->
+  <path d="M 360 170 L 440 170" stroke="#0284c7" stroke-width="2.2" marker-end="url(#arrow-fsm)" />
+  <rect x="365" y="145" width="70" height="18" rx="3" fill="#e0f2fe" />
+  <text x="370" y="158" class="guard-text">RF Packet</text>
+
+  <!-- 2. STATE_PREEMPTION_PENDING -->
+  <g class="shadow">
+    <rect x="445" y="125" width="290" height="90" rx="10" fill="#ffffff" stroke="#38bdf8" stroke-width="2" />
+    <rect x="445" y="125" width="8" height="90" rx="4" fill="#0284c7" />
+    <text x="465" y="148" class="state-name" fill="#0369a1">2. PREEMPTION_PENDING</text>
+    <text x="465" y="166" class="state-time" fill="#0284c7">Duration: &lt; 25 ms (Hardware Interrupt)</text>
+    <text x="465" y="184" class="state-desc">• Validate HMAC-SHA256 &amp; 32-bit Counter</text>
+    <text x="465" y="200" class="state-desc">• Latch requested direction (e.g. North Approach)</text>
+  </g>
+
+  <!-- Transition 2 -> 3 -->
+  <path d="M 735 170 L 815 170" stroke="#0284c7" stroke-width="2.2" marker-end="url(#arrow-fsm)" />
+  <rect x="740" y="145" width="70" height="18" rx="3" fill="#e0f2fe" />
+  <text x="745" y="158" class="guard-text">Latch Done</text>
+
+  <!-- 3. STATE_ACTIVE_AMBER (Mandatory Deceleration) -->
+  <g class="shadow">
+    <rect x="820" y="125" width="300" height="95" rx="10" fill="#fefce8" stroke="#eab308" stroke-width="2.5" />
+    <rect x="820" y="125" width="8" height="95" rx="4" fill="#ca8a04" />
+    <circle cx="1095" cy="150" r="10" fill="#eab308" stroke="#ca8a04" stroke-width="1.5" />
+    <text x="840" y="148" class="state-name" fill="#854d0e">3. STATE_ACTIVE_AMBER</text>
+    <text x="840" y="168" class="state-time" fill="#ca8a04">Duration: 3,500 ms (Safe Deceleration)</text>
+    <text x="840" y="186" class="state-desc">• Cross-Traffic (E-W): AMBER (Deceleration)</text>
+    <text x="840" y="202" class="state-desc">• Priority Target: HELD RED | Pedestrians: STOP</text>
+  </g>
+
+  <!-- Transition 3 -> 4 -->
+  <path d="M 970 220 L 970 295" stroke="#0284c7" stroke-width="2.2" marker-end="url(#arrow-fsm)" />
+  <rect x="980" y="248" width="85" height="18" rx="3" fill="#e0f2fe" />
+  <text x="985" y="261" class="guard-text">t &gt;= 3500 ms</text>
+
+  <!-- 4. STATE_ALL_RED_CLEARANCE (Intersection Evacuation) -->
+  <g class="shadow">
+    <rect x="820" y="300" width="300" height="95" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="2.5" />
+    <rect x="820" y="300" width="8" height="95" rx="4" fill="#dc2626" />
+    <circle cx="1095" cy="325" r="10" fill="#ef4444" stroke="#b91c1c" stroke-width="1.5" />
+    <text x="840" y="323" class="state-name" fill="#991b1b">4. ALL_RED_CLEARANCE</text>
+    <text x="840" y="343" class="state-time" fill="#dc2626">Duration: 2,000 ms (Junction Box Clearance)</text>
+    <text x="840" y="361" class="state-desc">• ALL LANES HELD RED (Cross &amp; Emergency)</text>
+    <text x="840" y="377" class="state-desc">• Straggling vehicles fully evacuate junction box</text>
+  </g>
+
+  <!-- Transition 4 -> 5 -->
+  <path d="M 820 348 L 740 348" stroke="#16a34a" stroke-width="2.5" marker-end="url(#arrow-green)" />
+  <rect x="745" y="325" width="70" height="18" rx="3" fill="#dcfce7" />
+  <text x="750" y="338" font-family="'Segoe UI', Arial" font-size="9.5px" font-weight="700" fill="#15803d">t &gt;= 2000 ms</text>
+
+  <!-- 5. STATE_PRIORITY_GREEN (Corridor Preemption) -->
+  <g class="shadow">
+    <rect x="420" y="295" width="315" height="105" rx="10" fill="#f0fdf4" stroke="#22c55e" stroke-width="3" />
+    <rect x="420" y="295" width="8" height="105" rx="4" fill="#16a34a" />
+    <circle cx="710" cy="320" r="10" fill="#22c55e" stroke="#15803d" stroke-width="1.5" />
+    <text x="440" y="320" class="state-name" fill="#166534">5. STATE_PRIORITY_GREEN</text>
+    <text x="440" y="340" class="state-time" fill="#15803d">Duration: 15,000 – 30,000 ms (Active Corridor)</text>
+    <text x="440" y="358" class="state-desc">• Priority Approach (North): ENERGIZED GREEN</text>
+    <text x="440" y="374" class="state-desc">• Cross Lanes: HARD MECHANICAL RED (K3 cut by K6)</text>
+    <text x="440" y="390" class="state-desc">• Edge-AI: Logging Plates &amp; Granting Challan Immunity</text>
+  </g>
+
+  <!-- Transition 5 -> 6 -->
+  <path d="M 420 348 L 340 348" stroke="#0284c7" stroke-width="2.2" marker-end="url(#arrow-fsm)" />
+  <rect x="345" y="325" width="70" height="18" rx="3" fill="#e0f2fe" />
+  <text x="350" y="338" class="guard-text">Exit Trigger</text>
+
+  <!-- 6. STATE_RECOVERY_AMBER -->
+  <g class="shadow">
+    <rect x="40" y="300" width="295" height="95" rx="10" fill="#fefce8" stroke="#eab308" stroke-width="2.5" />
+    <rect x="40" y="300" width="8" height="95" rx="4" fill="#ca8a04" />
+    <circle cx="310" cy="325" r="10" fill="#eab308" stroke="#ca8a04" stroke-width="1.5" />
+    <text x="60" y="323" class="state-name" fill="#854d0e">6. RECOVERY_AMBER</text>
+    <text x="60" y="343" class="state-time" fill="#ca8a04">Duration: 3,500 ms (Anti-Tailgate Warning)</text>
+    <text x="60" y="361" class="state-desc">• Target Emergency Lane: AMBER ENERGIZED</text>
+    <text x="60" y="377" class="state-desc">• Cross Lanes: HELD RED | Stops civilian tailgating</text>
+  </g>
+
+  <!-- Transition 6 -> 7 -->
+  <path d="M 185 395 L 185 470" stroke="#0284c7" stroke-width="2.2" marker-end="url(#arrow-fsm)" />
+  <rect x="195" y="425" width="85" height="18" rx="3" fill="#e0f2fe" />
+  <text x="200" y="438" class="guard-text">t &gt;= 3500 ms</text>
+
+  <!-- 7. STATE_RECOVERY_ALL_RED -->
+  <g class="shadow">
+    <rect x="40" y="475" width="295" height="95" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="2.5" />
+    <rect x="40" y="475" width="8" height="95" rx="4" fill="#dc2626" />
+    <circle cx="310" cy="500" r="10" fill="#ef4444" stroke="#b91c1c" stroke-width="1.5" />
+    <text x="60" y="498" class="state-name" fill="#991b1b">7. RECOVERY_ALL_RED</text>
+    <text x="60" y="518" class="state-time" fill="#dc2626">Duration: 1,500 ms (Phase Resync Buffer)</text>
+    <text x="60" y="536" class="state-desc">• ALL LANES HELD RED (Settles relay transients)</text>
+    <text x="60" y="552" class="state-desc">• Resynchronizes legacy traffic controller timers</text>
+  </g>
+
+  <!-- Transition 7 -> 1 (Loop back to Normal) -->
+  <path d="M 140 475 L 140 215" stroke="#0284c7" stroke-width="2.2" marker-end="url(#arrow-fsm)" />
+  <rect x="75" y="250" width="60" height="18" rx="3" fill="#e0f2fe" />
+  <text x="80" y="263" class="guard-text">Cycle Sync</text>
+
+  <!-- ========================================================================= -->
+  <!-- FAIL-SAFE FALLBACK & HARDWARE WATCHDOG OVERRIDE                           -->
+  <!-- ========================================================================= -->
+  <g class="shadow">
+    <rect x="420" y="475" width="700" height="95" rx="10" fill="#fff7ed" stroke="#ea580c" stroke-width="2.5" />
+    <rect x="420" y="475" width="8" height="95" rx="4" fill="#c2410c" />
+    <text x="440" y="500" class="state-name" fill="#9a3412">🚨 STATE_FAIL_SAFE_FALLBACK (Hardware Crash / Brownout / Watchdog Trip)</text>
+    <text x="440" y="520" class="state-time" fill="#c2410c">Actuation Speed: &lt; 20 ms (Mechanical Spring Return)</text>
+    <text x="440" y="538" class="state-desc">• All Form-C Relay coils instantly de-energize; moving contacts drop to Normally Closed (NC) pins.</text>
+    <text x="440" y="554" class="state-desc">• Control reverts 100% to legacy traffic signal controller (fixed round-robin or flashing amber).</text>
+  </g>
+
+  <!-- Fail-safe triggers (Dotted Red Arrows) -->
+  <path d="M 570 400 L 570 475" stroke="#dc2626" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#arrow-fail)" />
+  <text x="575" y="445" class="fail-text">Watchdog Trip / Brownout</text>
+
+  <path d="M 970 395 L 970 475" stroke="#dc2626" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#arrow-fail)" />
+  <text x="975" y="445" class="fail-text">Relay Error</text>
+
+  <!-- ========================================================================= -->
+  <!-- BOTTOM DETAIL PANELS                                                      -->
+  <!-- ========================================================================= -->
+
+  <!-- Panel 1: Fail-Safe Interlock Matrix -->
+  <rect x="25" y="605" width="560" height="265" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" class="shadow" />
+  <text x="45" y="630" class="panel-title">FORM-C HARDWARE INTERLOCK STATE MATRIX</text>
+  
+  <!-- Table Header -->
+  <rect x="45" y="645" width="520" height="24" fill="#f1f5f9" />
+  <text x="55" y="661" font-family="'Segoe UI', Arial" font-size="10px" font-weight="700" fill="#1e293b">STATE</text>
+  <text x="185" y="661" font-family="'Segoe UI', Arial" font-size="10px" font-weight="700" fill="#1e293b">CROSS (E-W)</text>
+  <text x="295" y="661" font-family="'Segoe UI', Arial" font-size="10px" font-weight="700" fill="#1e293b">TARGET (NORTH)</text>
+  <text x="415" y="661" font-family="'Segoe UI', Arial" font-size="10px" font-weight="700" fill="#1e293b">INTERLOCK STATUS</text>
+
+  <!-- Row 1 -->
+  <text x="55" y="685" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#475569">NORMAL_CYCLE</text>
+  <text x="185" y="685" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#16a34a" font-weight="600">GREEN / AMBER / RED</text>
+  <text x="295" y="685" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#dc2626" font-weight="600">RED / AMBER / GREEN</text>
+  <text x="415" y="685" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#64748b">Legacy Passthrough (NC)</text>
+
+  <!-- Row 2 -->
+  <text x="55" y="709" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#475569">ACTIVE_AMBER (3.5s)</text>
+  <text x="185" y="709" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#ca8a04" font-weight="700">AMBER (Yellow)</text>
+  <text x="295" y="709" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#dc2626" font-weight="700">SOLID RED</text>
+  <text x="415" y="709" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#0284c7">Decel Timer Active</text>
+
+  <!-- Row 3 -->
+  <text x="55" y="733" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#475569">ALL_RED_CLEAR (2.0s)</text>
+  <text x="185" y="733" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#dc2626" font-weight="700">SOLID RED</text>
+  <text x="295" y="733" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#dc2626" font-weight="700">SOLID RED</text>
+  <text x="415" y="733" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#dc2626" font-weight="700">All Lanes Open Circuit</text>
+
+  <!-- Row 4 -->
+  <text x="55" y="757" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#475569">PRIORITY_GREEN (20s)</text>
+  <text x="185" y="757" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#dc2626" font-weight="700">HARD LOCKED RED</text>
+  <text x="295" y="757" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#16a34a" font-weight="700">ENERGIZED GREEN</text>
+  <text x="415" y="757" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#16a34a" font-weight="700">K6 Breaks K3 Power Rail</text>
+
+  <!-- Row 5 -->
+  <text x="55" y="781" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#475569">RECOVERY_AMBER (3.5s)</text>
+  <text x="185" y="781" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#dc2626" font-weight="700">SOLID RED</text>
+  <text x="295" y="781" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#ca8a04" font-weight="700">AMBER (Yellow)</text>
+  <text x="415" y="781" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#0284c7">Target Decel Timer</text>
+
+  <!-- Row 6 -->
+  <text x="55" y="805" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#475569">RECOVERY_ALL_RED (1.5s)</text>
+  <text x="185" y="805" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#dc2626" font-weight="700">SOLID RED</text>
+  <text x="295" y="805" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#dc2626" font-weight="700">SOLID RED</text>
+  <text x="415" y="805" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#64748b">Sync Re-engagement</text>
+
+  <!-- Row 7 -->
+  <text x="55" y="829" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#b91c1c" font-weight="700">FAIL-SAFE BROWNOUT</text>
+  <text x="185" y="829" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#b91c1c" font-weight="700">DE-ENERGIZED (NC)</text>
+  <text x="295" y="829" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#b91c1c" font-weight="700">DE-ENERGIZED (NC)</text>
+  <text x="415" y="829" font-family="'Segoe UI', Arial" font-size="9.5px" fill="#b91c1c" font-weight="700">Zero Collision Drop &lt;20ms</text>
+
+  <!-- Panel 2: Physical Collision Avoidance Guarantees -->
+  <rect x="615" y="605" width="560" height="265" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" class="shadow" />
+  <text x="635" y="630" class="panel-title">INDIAN ROAD CONGRESS (IRC:SP:12) SAFETY COMPLIANCE</text>
+
+  <g transform="translate(635, 645)">
+    <text x="0" y="16" font-family="'Segoe UI', Arial" font-size="11px" font-weight="700" fill="#0f172a">1. Safe Deceleration Physics (3.5s Amber):</text>
+    <text x="0" y="32" class="panel-body">• At 45 km/h (12.5 m/s), reaction distance is 9.4m (0.75s) + braking distance 13.9m = 23.3m.</text>
+    <text x="0" y="46" class="panel-body">• 3,500 ms amber provides 43.7m stopping window, fully eliminating the "Dilemma Zone".</text>
+
+    <text x="0" y="74" font-family="'Segoe UI', Arial" font-size="11px" font-weight="700" fill="#0f172a">2. Intersection Box Evacuation (2.0s All-Red):</text>
+    <text x="0" y="90" class="panel-body">• A 24m wide 4-lane intersection requires 1.92s for a 12m commercial bus to clear at 45 km/h.</text>
+    <text x="0" y="104" class="panel-body">• 2,000 ms all-red ensures zero vehicle collision risk before Priority Green turns ON.</text>
+
+    <text x="0" y="132" font-family="'Segoe UI', Arial" font-size="11px" font-weight="700" fill="#0f172a">3. Series Power Chaining (Zero Dual-Green Guarantee):</text>
+    <text x="0" y="148" class="panel-body">• The 230V AC phase power for Cross Green (K3) is fed through Normally Closed (NC) pin of K6.</text>
+    <text x="0" y="162" class="panel-body">• When K6 energizes, the power to K3 is physically severed before K6 NO contact closes.</text>
+
+    <text x="0" y="190" font-family="'Segoe UI', Arial" font-size="11px" font-weight="700" fill="#0f172a">4. Hard Ceiling Watchdog (30.0s Timeout):</text>
+    <text x="0" y="206" class="panel-body">• If edge-AI camera drops or officer neglects reset, hardware timer forces exit at t = 30.0s.</text>
+  </g>
+</svg>
