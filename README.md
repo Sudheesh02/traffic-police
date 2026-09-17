@@ -177,10 +177,17 @@ synchroclear-its/
 ├── README.md                   # Comprehensive system documentation and deployment guide
 ├── LICENSE                     # Apache 2.0 open-source software license
 ├── pitch_deck.md               # 6-slide executive pitch deck adhering to ppt-pitch-crafter
+├── SynchroClear_Raipur_Pitch_Deck.pptx # Ready-to-upload 16:9 widescreen PowerPoint presentation
 ├── docs/
 │   ├── system_architecture.md  # 4-layer Mermaid architecture diagram & subsystem breakdown
 │   ├── state_machine.md        # Inter-green safety clearance state machine & timing charts
 │   ├── raipur_pilot_plan.md    # Jaistambh & Ghadi Chowk 7-day deployment blueprint
+│   ├── raipur_satellite_corridor_map.png # 2048x1536 Google Earth hybrid satellite tactical map
+│   ├── raipur_gis_roadmap.png  # 2048x1536 Cartographic GIS street network map
+│   ├── raipur_corridor_map.html # Interactive multi-layer Folium/Leaflet corridor map
+│   ├── raipur_corridor_3d_render.png # 3D photorealistic aerial digital twin render of Jaistambh
+│   ├── generate_raipur_maps.py # High-resolution satellite tile stitcher and GIS annotator
+│   ├── generate_pptx.py        # Automated 16:9 executive presentation generator
 │   └── verify_docs.py          # Diagram and documentation validation test script
 ├── ai_pipeline/
 │   ├── detect_emergency.py     # YOLO classifier + optical strobe frequency analyzer

@@ -33,6 +33,26 @@ The 7-day pilot validates SynchroClear-ITS along Raipur's critical medical emerg
 - **Existing Infrastructure**: Inductive loop detector rack, 230VAC signal heads with 24V solid-state relays.
 - **Emergency Priority**: Eastbound fire and rescue vehicles from Central Fire Station; Southbound trauma transports.
 
+### 1.3 High-Resolution Geographic Maps & GIS Tactical Overlays
+
+The pilot corridor is documented and mapped across multiple high-resolution GIS artifacts in `docs/`:
+
+1. **Google Earth Hybrid Satellite Tactical Map** (`docs/raipur_satellite_corridor_map.png`):
+   - 2048 x 1536 ultra-high-resolution satellite view of the Great Eastern Road corridor.
+   - Highlights Jaistambh Chowk, Ghadi Chowk, Mekahara Hospital Trauma Center, and Raipur Police ICCC.
+   - Overlays the 1.0 km 868 MHz Sub-GHz RF coverage geofence circles and the active emergency green corridor.
+
+2. **Cartographic GIS Street Network Map** (`docs/raipur_gis_roadmap.png`):
+   - 2048 x 1536 clean street network view highlighting turning lanes, arterial approaches, and bypass routes.
+
+3. **Interactive Multi-Layer Corridor Map** (`docs/raipur_corridor_map.html`):
+   - Interactive Leaflet/Folium web map viewable in any browser.
+   - Allows switching between Google Earth Satellite, Esri World Imagery, CartoDB Clean Street, and Night Mode (Dark Matter).
+   - Features clickable telemetry popups on all junctions, measurement tools, and geofence overlays.
+
+4. **3D Aerial Digital Twin Render** (`docs/raipur_corridor_3d_render.png`):
+   - Photorealistic 3D aerial rendering of Jaistambh Chowk showing an ambulance clearing the green wave corridor with telemetry HUD.
+
 ---
 
 ## 2. Day-by-Day Deployment Timeline
