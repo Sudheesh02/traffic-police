@@ -130,12 +130,8 @@ export function DashboardSidebar() {
             isSidebarCollapsed ? 'justify-center' : ''
           }`}
         >
-          <div className="relative">
-            <img
-              src={currentUser.avatar}
-              alt={currentUser.name}
-              className="size-9 rounded-full object-cover border border-border"
-            />
+          <div className="relative flex size-9 shrink-0 items-center justify-center rounded-full bg-primary/15 border border-primary/30 text-primary font-bold text-xs tracking-wider shadow-sm">
+            <span>{currentUser.initials}</span>
             <span className="absolute bottom-0 right-0 size-2.5 rounded-full bg-emerald-500 border-2 border-background" />
           </div>
 
