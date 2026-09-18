@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useState, type ReactNode } from 'react'
+import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
 
 export type DashboardRoutePath =
   | '/'
@@ -28,8 +28,28 @@ export function DashboardNavigationProvider({ children }: { children: ReactNode 
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false)
   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 
+  useEffect(() => {
+    const saved = (typeof window !== 'undefined' ? localStorage.getItem('astrix-theme') : null) as 'dark' | 'light' | null
+    const initial = saved === 'light' ? 'light' : 'dark'
+    setTheme(initial)
+    if (typeof document !== 'undefined') {
+      document.documentElement.classList.toggle('dark', initial === 'dark')
+    }
+  }, [])
+
   const toggleSidebar = () => setIsSidebarCollapsed((prev) => !prev)
-  const toggleTheme = () => setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
+  const toggleTheme = () => {
+    setTheme((prev) => {
+      const next = prev === 'dark' ? 'light' : 'dark'
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('astrix-theme', next)
+      }
+      if (typeof document !== 'undefined') {
+        document.documentElement.classList.toggle('dark', next === 'dark')
+      }
+      return next
+    })
+  }
 
   return (
     <NavigationContext.Provider
@@ -42,7 +62,7 @@ export function DashboardNavigationProvider({ children }: { children: ReactNode 
         toggleTheme,
       }}
     >
-      <div className={`astrix-dashboard ${theme}`}>{children}</div>
+      <div className={`astrix-dashboard ${theme} min-h-screen bg-background text-foreground`}>{children}</div>
     </NavigationContext.Provider>
   )
 }
